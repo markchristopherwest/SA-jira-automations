@@ -150,10 +150,13 @@
     function updateTotalHoursInput(totalHours) {
         console.log('Attempting to update total hours input with value:', totalHours);
 
-        // Find the correct input field using the provided method
-        const thisQuarter = getQuarter();
+        // HashiCorp Fiscal is February 1 so the new FY starts end in January
+        const date = date(); // February 1, 2024
+        const fiscalYearStartMonth = 2; // February
+
+        const quarter = getFiscalQuarter(date, fiscalYearStartMonth);
         function findTimeSpentInput() {
-            let timeSpentHeading = Array.from(document.querySelectorAll(thisQuarter))
+            let timeSpentHeading = Array.from(document.querySelectorAll(quarter))
             .find(el => el.textContent.trim() === 'Time spent');
             if (timeSpentHeading) {
                 let inputContainer = timeSpentHeading.closest('[data-component-selector="jira-issue-field-heading-field-wrapper"]')
@@ -261,11 +264,16 @@
     }
 
 
-    function getQuarter() {
-        var today = new Date();
-        var quarter = Math.floor((today.getMonth() + 3) / 3);
-        return "q"+quarter;
-    }
+    function getFiscalQuarter(date, fiscalYearStartMonth) {
+        // Adjust for JavaScript's zero-indexed months
+        const monthIndex = date.getMonth() + 1; 
+        const fiscalMonthIndex = fiscalYearStartMonth - 1;
+      
+        // Calculate the fiscal quarter
+        const fiscalQuarter = Math.ceil((monthIndex - fiscalMonthIndex + 12) % 12 / 3);
+      
+        return "q"+fiscalQuarter;
+      }
 
     function addButton() {
         const classTag = document.getElementsByClassName("_4cvr1y6m _1e0c1txw _2lx2vrvc _r1twu2gc");

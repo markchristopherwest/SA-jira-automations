@@ -151,8 +151,9 @@
         console.log('Attempting to update total hours input with value:', totalHours);
 
         // Find the correct input field using the provided method
+        const thisQuarter = getQuarter();
         function findTimeSpentInput() {
-            let timeSpentHeading = Array.from(document.querySelectorAll('h2'))
+            let timeSpentHeading = Array.from(document.querySelectorAll(thisQuarter))
             .find(el => el.textContent.trim() === 'Time spent');
             if (timeSpentHeading) {
                 let inputContainer = timeSpentHeading.closest('[data-component-selector="jira-issue-field-heading-field-wrapper"]')
@@ -257,6 +258,13 @@
         document.getElementById('activity-comment').value = '';
         document.getElementById('activities').selectedIndex = -1;
         document.getElementById('activity-entries').focus();
+    }
+
+
+    function getQuarter() {
+        var today = new Date();
+        var quarter = Math.floor((today.getMonth() + 3) / 3);
+        return "q"+quarter;
     }
 
     function addButton() {

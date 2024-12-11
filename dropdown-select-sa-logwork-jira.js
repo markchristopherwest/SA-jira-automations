@@ -272,7 +272,7 @@
         // Calculate the fiscal quarter
         const fiscalQuarter = Math.ceil((monthIndex - fiscalMonthIndex + 12) % 12 / 3);
       
-        return "q"+fiscalQuarter;
+        return "h"+fiscalQuarter;
       }
 
     function addButton() {
